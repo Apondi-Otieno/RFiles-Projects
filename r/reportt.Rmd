@@ -1,0 +1,136 @@
+---
+title: "doc1"
+output: html_document
+date: "2023-05-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+```
+
+
+# Data Wrangling Exercise
+## Business Understanding
+
+## EDA
+
+
+```{r, travel dataset} 
+df <- read.csv("C:\\Users\\bapondi\\Downloads\\mental_illness_prevalence\\markdown\\data (1).csv")
+head(df, 10)
+```
+
+
+```{r, travel dataset summary} 
+summary(df)
+```
+```{r}
+sample_n(df,5)
+```
+
+```{r}
+df%>%
+  ggplot(aes(x=PREMIUM))+
+  geom_histogram()
+
+```
+#converting dates
+
+```{r}
+df$DATE.POSTED <- as.Date(df$DATE.POSTED,"%d/%m/%Y")
+head(df, 5)
+```
+
+```{r}
+df$RETURN.DATE <- as.Date(df$RETURN.DATE,"%d/%m/%Y")
+class(df$RETURN.DATE)
+head(df, 5)
+```
+
+```{r}
+df$DEPATURE <- as.Date(df$DEPARTURE,"%d/%m/%Y")
+class(df$RETURN.DATE)
+head(df, 6)
+```
+#checking linear regression
+
+```{r}
+ggplot(df, aes(x= PASSENGERS, y= PREMIUM, color= BRANCH))+
+  geom_point()
+```
+#structure of updated data
+```{r}
+
+str(df)
+```
+```{r}
+unique(df$BRANCH)
+```
+
+```{r}
+df%>%
+  mutate(BRANCH=gsub('Westagate', 'Westgate',str_trim(BRANCH)))%>% 
+  distinct(BRANCH)
+#to change column, or change values in a column
+```
+
+```{r}
+#df$BRANCH <- mutate(gsub('westagate', 'westgate', df$BRANCH))
+ggplot(df, aes(x= PASSENGERS, y= PREMIUM, color= BRANCH))+
+  geom_point()
+```
+#the number of passengers increases the number of premiums(with exceptions)
+
+```{r, separating origin column}
+separated_data <- df%<%separate(ORIGIN, into=c("OriginCounty", "OriginLocation"), sep="") %>% separate(DESTINATION, into=c("DestinationCounty","DestinationLocation"), sep=",")
+separated_data
+
+#finish up
+data %>% mutate(origin_county=)
+```
+```{r}
+filter(df, SV.NUMBER ==112449)
+#use separated dataj
+```
+```{r}
+df[df$ORIGIN %in% c('Naivasha, Nairobi'), ]
+#start the recording at 1;19;09
+```
+
+```{r}
+df %>% filter(grepl('Naivasha', ORIGIN))
+```
+```{r, locating vasha}
+df[str_detect(df$ORIGIN, "Naivasha"), ]
+```
+```{r, dropping a record}
+
+df %>% filter(SV.NUMBER !=323597) %>% filter(grepl('Naivasha', ORIGIN))
+```
+```{r, get day of the week}
+
+df$weekday<-format(as.Date(df$DEPARTURE, format= "%Y-%m-%d") ,"%a")
+head(df,3)
+```
+
+
+```{r, splitting strings(origin and destination)}
+df_separated <- df%>%
+  separate(ORIGIN, into=c('originCounty', 'originLocation'), sep="," ,  fill="right")%>%
+  separate(DESTINATION, into=c('destinationCounty', 'destinationLocation'), sep ="," , fill="left" , extra ="merge")
+head(data_separated, 5)
+
+
+#make sure the code isn't specific to the data. Make it global. 
+
+```
+
+```{r, plot map in R shapefiles}
+
+```
+
+# post the html without the code
+# create slides for the presentation
